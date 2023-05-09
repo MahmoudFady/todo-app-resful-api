@@ -1,0 +1,15 @@
+const express = require("express");
+const morgan = require("morgan");
+const app = express();
+app.use(morgan("dev"));
+const userRoutes = require("./routes/userRoutes");
+const todoRoutes = require("./routes/todoRoutes");
+const notFoundRoute = require("./middlewares/not-found");
+const errRoute = require("./middlewares/error");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(userRoutes);
+app.use(todoRoutes);
+app.use(notFoundRoute);
+app.use(errRoute);
+module.exports = app;
