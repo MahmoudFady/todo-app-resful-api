@@ -1,4 +1,6 @@
 const UserModel = require("../models/userModel");
+const TodoModel = require("../models/todoModel");
+
 const passwordUtil = require("../utils/passswordUtil");
 const jwtUtil = require("../utils/jwtUtil");
 
@@ -25,6 +27,17 @@ module.exports.signup = async (req, res, next) => {
     res
       .status(200)
       .json({ message: "signup success", userId: newUser._id, token });
+  } catch (err) {
+    next(err);
+  }
+};
+module.exports.getAllTodo = async (req, res, next) => {
+  try {
+    const todos = await TodoModel.find({ user: req.params["id"] }).populate({
+      path: "user",
+      select: "-password -email",
+    });
+    res.status(200).json({ message: "get all todos for specific user", todos });
   } catch (err) {
     next(err);
   }

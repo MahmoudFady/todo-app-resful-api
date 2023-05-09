@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 module.exports.signin = [
   body("email")
     .exists()
@@ -31,4 +31,7 @@ module.exports.signup = [
     .withMessage("password is required")
     .notEmpty()
     .withMessage("password can't be empty"),
+];
+module.exports.isMongoId = [
+  param("id").isMongoId().withMessage("invalid todo id"),
 ];
